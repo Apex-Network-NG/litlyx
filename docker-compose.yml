@@ -25,7 +25,7 @@ services:
     image: litlyx/litlyx-producer
     restart: always
     ports:
-      - "3099:3099"
+      - "${FORWARD_PRODUCER_PORT:-3099}:3099"
     environment:
       PORT: "3099"
       REDIS_URL: "redis://cache"
@@ -40,7 +40,7 @@ services:
     image: litlyx/litlyx-consumer
     restart: always
     ports:
-      - "3011:3031"
+      - "${FORWARD_CONSUMER_PORT:-3011}:3031"
     environment:
       PORT: "3031"
       # Optional - Used to send welcome and quota emails
@@ -61,7 +61,7 @@ services:
     image: litlyx/litlyx-dashboard
     restart: always
     ports:
-      - "3000:3000"
+      - "${FORWARD_DASHBOARD_PORT:-3000}:3000"
     environment:
       NUXT_PORT: "3000"
       # Change "litlyx:litlyx" with "mongodb://YOUR_MONGO_USERNAME:YOUR_MONGO_PASSWORD"
@@ -91,8 +91,8 @@ services:
       NUXT_PUBLIC_AUTH_MODE: 'NO_AUTH'
 
       # Credentials to login in NO_AUTH mode
-      NUXT_NOAUTH_USER_EMAIL: 'default@user.com'
-      NUXT_NOAUTH_USER_PASS: "litlyx123"
+      NUXT_NOAUTH_USER_EMAIL: '${NOAUTH_USER_EMAIL:-default@user.com}'
+      NUXT_NOAUTH_USER_PASS: "${NUXT_NOAUTH_USER_PASS:-litlyx123}"
 
       NUXT_SELFHOSTED: 'true'
       NUXT_PUBLIC_SELFHOSTED: 'true'
